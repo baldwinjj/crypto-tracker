@@ -1,3 +1,4 @@
+<button (click)="onAddTransaction()">+ Add Transaction</button>
 <table>
   <thead>
   <tr>
@@ -7,8 +8,53 @@
     <th>Currency</th>
     <th>Price/Crypto (USD)</th>
     <th>Amount (USD)</th>
+    <th></th>
   </tr>
   </thead>
   <tbody>
+  <ng-template *ngIf="editIndex !== -1; else editRowTemplate"></ng-template>
+  <ng-container *ngFor="let transaction of transactions$ | async; let i = index">
+    <ng-container *ngTemplateOutlet="i !== editIndex ? viewRowTemplate : editRowTemplate; context: { index: i, data: transaction }"></ng-container>
+  </ng-container>
   </tbody>
 </table>
+
+<ng-template #viewRowTemplate let-index="index" let-data="data">
+  <tr>
+    <td>{{data.merchant}}</td>
+    <td>{{data.item}}</td>
+    <td>{{data.amount | number: '1.8-8'}}</td>
+    <td>{{data.currency}}</td>
+    <td>{{data.price | currency}}</td>
+    <td>{{data.fiat | currency}}</td>
+    <td>
+      <button (click)="onEditTransaction(index, data)">Edit</button>
+      <button (click)="deleteTransaction(index)">Delete</button>
+    </td>
+  </tr>
+</ng-template>
+
+<ng-template #editRowTemplate let-index="index" let-data="data">
+  <tr [formGroup]="editForm">
+    <td>
+      <input type="text" placeholder="Merchant" formControlName="merchant"/>
+    </td>
+    <td>
+      <input type="text" placeholder="Item" formControlName="item"/>
+    </td>
+    <td>
+      <input type="number" placeholder="Amount" formControlName="amount"/>
+    </td>
+    <td>
+      <select *ngIf="this.currencyCodes$ | async as currencyCodes" formControlName="currency">
+        <option *ngFor="let code of currencyCodes" [value]="code">{{ code }}</option>
+      </select>
+    </td>
+    <td>{{ editPrice$ | async | currency }}</td>
+    <td>{{ editFiat$ | async | currency }}</td>
+    <td>
+      <button *ngIf="!data" (click)="saveTransaction()" [disabled]="editForm.invalid">Save</button>
+      <button *ngIf="data" (click)="updateTransaction(index)" [disabled]="editForm.invalid">Update</button>
+    </td>
+  </tr>
+</ng-template>

@@ -8,5 +8,5 @@ export interface ICurrency {
   minimum: number,
   sanctioned: boolean,
   decimals: number,
-  chain: string
+  chain?: string
 }
