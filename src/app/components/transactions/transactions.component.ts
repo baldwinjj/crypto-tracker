@@ -1,4 +1,8 @@
 import { Component, OnInit } from '@angular/core';
+import {CurrencyService} from "../../services/currency.service";
+import {Observable} from "rxjs";
+import {ICurrency} from "../../interfaces/ICurrency";
+import {map} from "rxjs/operators";
 
 @Component({
   selector: 'app-transactions',
@@ -7,9 +11,14 @@ import { Component, OnInit } from '@angular/core';
 })
 export class TransactionsComponent implements OnInit {
 
-  constructor() { }
+  currencyCodes$: Observable<ICurrency['code'][]> = this.currencyService.getCurrencies().pipe(
+    map((currencies) => currencies.map(({code}) => code) )
+)
 
-  ngOnInit(): void {
-  }
+  constructor(
+    private currencyService: CurrencyService
+  ) { }
+
+  ngOnInit(): void {}
 
 }
