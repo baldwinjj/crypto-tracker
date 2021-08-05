@@ -1,1 +1,81 @@
-/* You can add global styles to this file, and also import other style files */
+@import url('https://fonts.googleapis.com/css2?family=Roboto&display=swap');
+
+$background: #f2f7fa;
+$primary: #1890FF;
+$warning: #F5222D;
+
+body {
+  position: absolute;
+  top: 0;
+  bottom: 0;
+  left: 0;
+  right: 0;
+  font-family: Roboto;
+  background-color: $background;
+}
+
+@mixin button-base {
+  border: 1px solid #D9D9D9;
+  cursor: pointer;
+  height: 32px;
+  padding: 4px 15px;
+  border-radius: 2px;
+  color: #FFF;
+  text-shadow: 0 -1 0 rgb(0 0 0 / 12%);
+}
+
+.primary-button {
+  @include button-base;
+  background-color: $primary;
+  border-color: $primary;
+  &:disabled {
+    background-color: #EEE;
+    color: #D9D9D9;
+    border: 1px solid #D9D9D9;
+    cursor: not-allowed;
+  }
+}
+
+.warning-button {
+  @include button-base;
+  background-color: $warning;
+  border-color: $warning;
+  &:disabled {
+    background-color: #EEE;
+    color: #D9D9D9;
+    border: 1px solid #D9D9D9;
+    cursor: not-allowed;
+  }
+}
+
+.default-button {
+  @include button-base;
+  background-color: #FFF;
+  color: #000;
+  &:disabled {
+    background-color: #EEE;
+    color: #D9D9D9;
+    border: 1px solid #D9D9D9;
+    cursor: not-allowed;
+  }
+}
+
+@mixin input-control {
+  width: 100%;
+  min-width: 15ch;
+  border-radius: 0.25em;
+  border: 1px solid #D9D9D9;
+  padding: 0.25em 0.5em;
+  cursor: pointer;
+  line-height: 1.1;
+  background-color: #fff;
+  font-size: 1em;
+}
+
+select {
+  @include input-control;
+}
+
+input {
+  @include input-control;
+}

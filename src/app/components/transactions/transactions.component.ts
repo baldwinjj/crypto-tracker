@@ -17,7 +17,7 @@ import {RateService} from "../../services/rate.service";
 export class TransactionsComponent implements OnInit, OnDestroy {
   unsubscribe$ = new Subject<void>();
   editIndex: number | null = null;
-  editForm: FormGroup = this.createForm();
+  editForm: FormGroup | null = null;
   editPrice$ = new Subject<number>();
   editFiat$ = new Subject<number>();
 
@@ -39,13 +39,13 @@ export class TransactionsComponent implements OnInit, OnDestroy {
   ngOnInit(): void {}
 
   async saveTransaction() {
-    const transaction: ITransaction = this.editForm.value;
+    const transaction: ITransaction = this.editForm?.value;
     await this.transactionService.createTransaction(transaction).toPromise();
     this.editIndex = null;
   }
 
   async updateTransaction(index: number) {
-    const transaction: ITransaction = this.editForm.value;
+    const transaction: ITransaction = this.editForm?.value;
     await this.transactionService.updateTransaction(index, transaction).toPromise();
     this.editIndex = null;
   }
@@ -63,6 +63,11 @@ export class TransactionsComponent implements OnInit, OnDestroy {
     this.editIndex = index;
     this.editForm = this.createForm();
     this.editForm.patchValue(transaction);
+  }
+
+  onCancelEdit() {
+    this.editIndex = null;
+    this.editForm = null;
   }
 
   private createForm(): FormGroup {

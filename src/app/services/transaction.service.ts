@@ -12,7 +12,7 @@ export class TransactionService {
   private REFRESH_INTERVAL = 120000;
   private update$ = new Subject<void>();
   /** In Memory store of transactions */
-  private transactions: ITransaction[] = [{ merchant: 'test', item: 'test', amount: 20, currency: 'BTC' }]
+  private transactions: ITransaction[] = []
 
   constructor(
     private rateService: RateService

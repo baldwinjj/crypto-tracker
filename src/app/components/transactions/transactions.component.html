@@ -1,23 +1,30 @@
-<button (click)="onAddTransaction()">+ Add Transaction</button>
-<table>
-  <thead>
-  <tr>
-    <th>Merchant</th>
-    <th>Item</th>
-    <th>Amount (crypto)</th>
-    <th>Currency</th>
-    <th>Price/Crypto (USD)</th>
-    <th>Amount (USD)</th>
-    <th></th>
-  </tr>
-  </thead>
-  <tbody>
-  <ng-template *ngIf="editIndex !== -1; else editRowTemplate"></ng-template>
-  <ng-container *ngFor="let transaction of transactions$ | async; let i = index">
-    <ng-container *ngTemplateOutlet="i !== editIndex ? viewRowTemplate : editRowTemplate; context: { index: i, data: transaction }"></ng-container>
-  </ng-container>
-  </tbody>
-</table>
+<div class="background center">
+  <div>
+    <div class="header">
+      <button class="primary-button" (click)="onAddTransaction()">+ Add Transaction</button>
+    </div>
+    <table class="card">
+      <thead>
+      <tr>
+        <th class="input-column">Merchant</th>
+        <th class="input-column">Item</th>
+        <th class="input-column">Amount (crypto)</th>
+        <th class="input-column">Currency</th>
+        <th class="input-column">Price/Crypto (USD)</th>
+        <th class="input-column">Amount (USD)</th>
+        <th class="action-column"></th>
+      </tr>
+      </thead>
+      <tbody>
+      <ng-template *ngIf="editIndex !== -1; else editRowTemplate"></ng-template>
+      <ng-container *ngFor="let transaction of transactions$ | async; let i = index">
+        <ng-container
+          *ngTemplateOutlet="i !== editIndex ? viewRowTemplate : editRowTemplate; context: { index: i, data: transaction }"></ng-container>
+      </ng-container>
+      </tbody>
+    </table>
+  </div>
+</div>
 
 <ng-template #viewRowTemplate let-index="index" let-data="data">
   <tr>
@@ -28,14 +35,14 @@
     <td>{{data.price | currency}}</td>
     <td>{{data.fiat | currency}}</td>
     <td>
-      <button (click)="onEditTransaction(index, data)">Edit</button>
-      <button (click)="deleteTransaction(index)">Delete</button>
+      <button (click)="onEditTransaction(index, data)" class="default-button row-button">Edit</button>
+      <button (click)="deleteTransaction(index)" class="warning-button row-button">Delete</button>
     </td>
   </tr>
 </ng-template>
 
 <ng-template #editRowTemplate let-index="index" let-data="data">
-  <tr [formGroup]="editForm">
+  <tr *ngIf="editForm" [formGroup]="editForm">
     <td>
       <input type="text" placeholder="Merchant" formControlName="merchant"/>
     </td>
@@ -53,8 +60,9 @@
     <td>{{ editPrice$ | async | currency }}</td>
     <td>{{ editFiat$ | async | currency }}</td>
     <td>
-      <button *ngIf="!data" (click)="saveTransaction()" [disabled]="editForm.invalid">Save</button>
-      <button *ngIf="data" (click)="updateTransaction(index)" [disabled]="editForm.invalid">Update</button>
+      <button *ngIf="!data" (click)="saveTransaction()" [disabled]="editForm?.invalid" class="primary-button row-button">Save</button>
+      <button *ngIf="data" (click)="updateTransaction(index)" [disabled]="editForm?.invalid" class="primary-button row-button">Update</button>
+      <button (click)="onCancelEdit()" class="default-button row-button">Cancel</button>
     </td>
   </tr>
 </ng-template>

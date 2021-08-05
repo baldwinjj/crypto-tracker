@@ -1,0 +1,53 @@
+.background {
+  position: absolute;
+  top: 0;
+  bottom: 0;
+  left: 0;
+  right: 0;
+}
+
+table {
+  border-spacing: 0;
+}
+
+th {
+  padding: 1rem;
+}
+
+td {
+  padding: 1.25em 1.5em;
+}
+
+.input-column {
+  width: 150px;
+}
+
+.action-column {
+  width: 200px;
+}
+
+thead {
+  color: #7d7f84;
+  background-color: #f9f9fb;
+  text-transform: capitalize;
+}
+
+.row-button {
+  margin: 0 .25rem;
+}
+
+.center {
+  display: flex;
+  justify-content: center;
+}
+
+.card {
+  background-color: white;
+  box-shadow: 0 5px 15px rgba(0, 0, 0, 0.3);
+  border: 1px solid #EEE;
+  border-radius: 4px;
+}
+
+.header {
+  padding: 1rem 0;
+}
